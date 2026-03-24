@@ -10,6 +10,7 @@ import { DiffIcon, TerminalSquareIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import ProjectScriptsControl, { type NewProjectScriptInput } from "../ProjectScriptsControl";
+import { Button } from "../ui/button";
 import { Toggle } from "../ui/toggle";
 import { SidebarTrigger } from "../ui/sidebar";
 import { OpenInPicker } from "./OpenInPicker";
@@ -101,21 +102,23 @@ export const ChatHeader = memo(function ChatHeader({
             openInCwd={openInCwd}
           />
         )}
-        {activeProjectName && <GitActionsControl gitCwd={gitCwd} activeThreadId={activeThreadId} />}
         <Tooltip>
           <TooltipTrigger
             render={
-              <Toggle
+              <Button
                 className="shrink-0"
-                pressed={terminalOpen}
-                onPressedChange={onToggleTerminal}
-                aria-label="Toggle terminal drawer"
                 variant="outline"
                 size="xs"
                 disabled={!terminalAvailable}
+                onClick={onToggleTerminal}
+                aria-label="Toggle terminal drawer"
+                data-pressed={terminalOpen || undefined}
               >
-                <TerminalSquareIcon className="size-3" />
-              </Toggle>
+                <TerminalSquareIcon className="size-3.5" />
+                <span className="sr-only @sm/header-actions:not-sr-only @sm/header-actions:ml-0.5">
+                  Terminal
+                </span>
+              </Button>
             }
           />
           <TooltipPopup side="bottom">
@@ -126,6 +129,7 @@ export const ChatHeader = memo(function ChatHeader({
                 : "Toggle terminal drawer"}
           </TooltipPopup>
         </Tooltip>
+        {activeProjectName && <GitActionsControl gitCwd={gitCwd} activeThreadId={activeThreadId} />}
         <Tooltip>
           <TooltipTrigger
             render={
